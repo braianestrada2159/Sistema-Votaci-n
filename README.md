@@ -32,6 +32,9 @@ El proyecto utiliza las siguientes credenciales para conectarse a la base de dat
 6. Para ejecutarlo utilice el comando:
 python app.py
 
+
+El programa principalme se ingresan los datos de forma frontend atravez de un formulario HTML o de forma backend con los siguientes comandos.
+
 Ejemplos de uso del API con curl:
 
 1. Crear un votante
