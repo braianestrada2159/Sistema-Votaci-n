@@ -31,3 +31,25 @@ El proyecto utiliza las siguientes credenciales para conectarse a la base de dat
 
 6. Para ejecutarlo utilice el comando:
 python app.py
+
+Ejemplos de uso del API con curl:
+
+1. Crear un votante
+Ruta: POST /voters
+
+curl -X POST http://localhost:5000/voters \
+-H "Content-Type: application/json" \
+-d '{
+    "name": "Juan Perez",
+    "email": "juan.perez@example.com"
+}'
+
+2. Crear un candidato
+Ruta: POST /candidates
+
+curl -X POST http://localhost:5000/candidates \
+-H "Content-Type: application/json" \
+-d '{
+    "name": "Maria Gomez",
+    "party": "Partido Verde"
+}'
