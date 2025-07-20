@@ -1,0 +1,138 @@
+/* Estilos generales del cuerpo del documento */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Estilos para los encabezados h1 y h2 */
+h1, h2 {
+    color: #444;
+}
+
+/* Estilos para el contenedor principal */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Estilos para los campos de entrada y botones */
+input[type="text"], input[type="email"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Estilos para los botones*/
+button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Efecto hover para los botones */
+button:hover {
+    background-color: #4cae4c;
+}
+
+/* Estilos para el contenedor de resultados */
+#results {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el botón de ver resultados */
+#viewResults {
+    background-color: #337ab7;
+}
+
+/* Efecto hover para el botón de ver resultados */
+#viewResults:hover {
+    background-color: #286090;
+}
+
+/* Estilos para el menú de navegación */
+.menu {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+/* Estilos para los botones del menú */
+.menu button {
+    background-color: #337ab7;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Efecto hover para los botones del menú */
+.menu button:hover {
+    background-color: #286090;
+}
+
+/* Estilos para el contenedor de estadísticas */
+.hidden {
+    display: none;
+}
+
+/* Estilos para los mensajes de éxito y error */
+.message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    display: none;
+}
+
+/* Estilos específicos para mensajes de éxito y error */
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Error message styles */
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Estilos para la tabla de resultados */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Estilos para las celdas de la tabla */
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+/* Estilos para las celdas de la tabla */
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilos para los encabezados de la tabla */
+th {
+    background-color: #f4f4f4;
+}

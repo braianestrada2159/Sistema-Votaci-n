@@ -4,116 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Votación</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        h1, h2 {
-            color: #444;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        input[type="text"], input[type="email"], input[type="number"], select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #4cae4c;
-        }
-        #results {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        #viewResults {
-            background-color: #337ab7;
-        }
-        #viewResults:hover {
-            background-color: #286090;
-        }
-        .menu {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-        .menu button {
-            background-color: #337ab7;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .menu button:hover {
-            background-color: #286090;
-        }
-        .hidden {
-            display: none;
-        }
-        .message {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            display: none;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
+    <link rel="icon" type="image/png" href="/img/vote.png">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Sistema de Votación</h1>
+    <!-- Encabezado del sistema de votación -->
+    <h1>Sistema de Votación <img src="/img/vote.png" alt="Icono"style="width: 70px; height: auto;"></h1>
     <div class="menu">
         <button onclick="showSection('voterSection')">Registro de Votante y Voto</button>
         <button onclick="showSection('candidateSection')">Registro de Candidato</button>
         <button onclick="showSection('resultsSection')">Resultados</button>
     </div>
 
+    <!-- Secciones del sistema -->
     <div id="voterSection" class="hidden">
         <form id="voterForm">
             <h2>Registro de Votante</h2>
@@ -132,6 +35,7 @@
         </form>
     </div>
 
+    <!-- Registro de Candidato y Resultados -->
     <div id="candidateSection" class="hidden">
         <form id="candidateForm">
             <h2>Registro de Candidato</h2>
@@ -142,6 +46,7 @@
         </form>
     </div>
 
+    <!-- Resultados y Estadísticas -->
     <div id="resultsSection" class="hidden">
         <h2>Resultados</h2>
         <button id="viewResults">Ver Resultados</button>
@@ -150,160 +55,7 @@
         <div id="statistics"></div>
     </div>
 
-    <script>
-        let currentVoterId = null; // Almacenará el ID del votante registrado
-
-        function showSection(sectionId) {
-            document.querySelectorAll('div[id$="Section"]').forEach(section => {
-                section.classList.add('hidden');
-            });
-            document.getElementById(sectionId).classList.remove('hidden');
-        }
-
-        function showMessage(element, message, isError = false) {
-            element.textContent = message;
-            element.className = `message ${isError ? 'error' : 'success'}`;
-            element.style.display = 'block';
-            setTimeout(() => element.style.display = 'none', 3000);
-        }
-
-        async function loadCandidates() {
-            const response = await fetch('/candidates'); // Obtener candidatos
-            const data = await response.json();
-            console.log("Candidatos cargados:", data.candidates); // Depuración
-            const candidates = data.candidates || [];
-            const select = document.getElementById('candidateSelect');
-            select.innerHTML = '<option value="">Seleccione un candidato</option>';
-            candidates.forEach(candidate => {
-                const option = document.createElement('option');
-                option.value = candidate.id;
-                option.textContent = candidate.name;
-                select.appendChild(option);
-            });
-        }
-
-        async function showResults() {
-            const response = await fetch('/results'); // Obtener resultados
-            const data = await response.json();
-            const results = data.results || [];
-            const resultsDiv = document.getElementById('results');
-            let tableHtml = '<table><tr><th>Candidato</th><th>Partido</th><th>Votos</th><th>Porcentaje de Votos</th></tr>';
-            results.forEach(result => {
-                tableHtml += `<tr><td>${result.name}</td><td>${result.party}</td><td>${result.votes}</td><td>${result.vote_percentage}%</td></tr>`;
-            });
-            tableHtml += '</table>';
-            resultsDiv.innerHTML = tableHtml;
-        }
-
-        async function showStatistics() {
-            const response = await fetch('/statistics'); // Obtener estadísticas
-            const data = await response.json();
-            const statistics = data.statistics || {};
-            const statisticsDiv = document.getElementById('statistics');
-            let statisticsHtml = `
-                <p>Total de votos: ${statistics.total_votes}</p>
-                <p>Candidato(s) con más votos: ${statistics.winning_candidates.join(', ')}</p>
-                <p>Máximo de votos: ${statistics.max_votes}</p>
-                <p>Porcentaje de votos del candidato ganador: ${statistics.winning_percentage}%</p>
-                <h3>Estadísticas por Candidato</h3>
-                <table>
-                    <tr>
-                        <th>Candidato</th>
-                        <th>Votos</th>
-                        <th>Porcentaje de Votos</th>
-                    </tr>
-            `;
-            statistics.candidates_statistics.forEach(candidate => {
-                statisticsHtml += `
-                    <tr>
-                        <td>${candidate.name}</td>
-                        <td>${candidate.votes}</td>
-                        <td>${candidate.vote_percentage}%</td>
-                    </tr>
-                `;
-            });
-            statisticsHtml += '</table>';
-            statisticsDiv.innerHTML = statisticsHtml;
-        }
-
-        document.getElementById('voterForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const response = await fetch('/voters', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: document.getElementById('voterName').value,
-                    email: document.getElementById('voterEmail').value
-                })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                showMessage(document.getElementById('voterMessage'), `Votante registrado con ID: ${data.id}`);
-                currentVoterId = data.id; // Guardamos el ID del votante
-                document.getElementById('voteForm').classList.remove('hidden'); // Mostramos el formulario de voto
-                await loadCandidates(); // Cargamos los candidatos disponibles
-            } else {
-                showMessage(document.getElementById('voterMessage'), data.message, true);
-            }
-        };
-
-        document.getElementById('voteForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const candidateId = document.getElementById('candidateSelect').value;
-            if (!candidateId) {
-                showMessage(document.getElementById('voteMessage'), 'Seleccione un candidato', true);
-                return;
-            }
-            const response = await fetch('/vote', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    voter_id: currentVoterId,
-                    candidate_id: candidateId
-                })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                showMessage(document.getElementById('voteMessage'), 'Voto registrado exitosamente');
-                document.getElementById('voteForm').classList.add('hidden'); // Ocultamos el formulario de voto
-                await showResults(); // Actualizamos la tabla de resultados
-            } else {
-                showMessage(document.getElementById('voteMessage'), data.message, true);
-            }
-        };
-
-        document.getElementById('candidateForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const response = await fetch('/candidates', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: document.getElementById('candidateName').value,
-                    party: document.getElementById('candidateParty').value
-                })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                showMessage(document.getElementById('candidateMessage'), `Candidato registrado con ID: ${data.id}`);
-                await loadCandidates(); // Recargar la lista de candidatos
-                await showResults(); // Actualizar la tabla de resultados
-            } else {
-                showMessage(document.getElementById('candidateMessage'), data.message, true);
-            }
-        };
-
-        document.getElementById('viewResults').onclick = async () => {
-            await showResults(); // Mostrar resultados al hacer clic en el botón
-        };
-
-        document.getElementById('viewStatistics').onclick = async () => {
-            await showStatistics(); // Mostrar estadísticas al hacer clic en el botón
-        };
-
-        // Mostrar resultados al cargar la sección de resultados
-        document.getElementById('resultsSection').onclick = async () => {
-            await showResults();
-        };
-    </script>
-</
+    <script src="/script.js"></script>
+</body>
+</html>
 
